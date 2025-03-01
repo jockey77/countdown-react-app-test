@@ -7,7 +7,7 @@ const ONE_HOUR = 60 * ONE_MINUTE;
 const ONE_DAY = 24 * ONE_HOUR;
 
 function App() {
-  const [giveawayDate] = useState(moment().add(30, 'days')); //added secrets
+  const [giveawayDate] = useState(moment().add(30, 'days')); //added secrets //
   const format = (item) => (item < 10) ? `0${item}` : item;
 
   const setTimer = () => {
