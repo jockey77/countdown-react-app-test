@@ -69,6 +69,9 @@ jobs:
         - name: Build Docker Image
           run: |
             docker build -t allappsregistry.azurecr.io/countdown-app:latest .
+        - name: Push Docker Image to ACR
+          run: |
+            docker push allappsregistry.azurecr.io/countdown-app:latest
 
   deploy:
       needs: docker
@@ -97,12 +100,12 @@ jobs:
               --resource-group AllApps-rs \
               --plan countdownServicePlan  \
               --name testingcountdown \
-              --deployment-container-image-name allappsregistry.azurecr.io/react-app:latest
+              --deployment-container-image-name allappsregistry.azurecr.io/countdown-app:latest
                
             az webapp config container set \
               --name testingcountdown \
               --resource-group AllApps-rs \
-              --docker-custom-image-name allappsregistry.azurecr.io/react-app:latest \
+              --docker-custom-image-name allappsregistry.azurecr.io/countdown-app:latest \
               --docker-registry-server-url https://allappsregistry.azurecr.io \
               --docker-registry-server-user ${{ secrets.AZURE_CLIENT_ID }} \
               --docker-registry-server-password ${{ secrets.AZURE_CLIENT_SECRET }}
