@@ -78,7 +78,7 @@ jobs:
           run: |
             az login --service-principal -u ${{ secrets.AZURE_CLIENT_ID }} -p ${{ secrets.AZURE_CLIENT_SECRET }} --tenant ${{ secrets.AZURE_TENANT_ID }}
             az container create \
-              --resource-group countdown-react-app \
+              --resource-group AllApps-rs \
               --name my-container \
               --image allappsregistry.azurecr.io/countdown-app:latest \
               --registry-login-server allappsregistry.azurecr.io \
@@ -94,14 +94,14 @@ jobs:
           run: |
             # Deploy to Azure Web App
             az webapp create \
-              --resource-group countdown-react-app \
+              --resource-group AllApps-rs \
               --plan countdownServicePlan  \
               --name testingcountdown \
               --deployment-container-image-name allappsregistry.azurecr.io/react-app:latest
                
             az webapp config container set \
               --name testingcountdown \
-              --resource-group countdown-react-app \
+              --resource-group AllApps-rs \
               --docker-custom-image-name allappsregistry.azurecr.io/react-app:latest \
               --docker-registry-server-url https://allappsregistry.azurecr.io \
               --docker-registry-server-user ${{ secrets.AZURE_CLIENT_ID }} \
