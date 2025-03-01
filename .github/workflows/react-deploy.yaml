@@ -62,13 +62,13 @@ jobs:
         - name: Log in to Azure Container Registry
           uses: docker/login-action@v3
           with:
-            registry: countdownacr.azurecr.io # global DNS unique domain name for Azure Container Registry unique identifier ip
+            registry: allappsregistry.azurecr.io # global DNS unique domain name for Azure Container Registry unique identifier ip
             username: ${{ secrets.DOCKER_USERNAME }}
             password: ${{ secrets.DOCKER_PASSWORD }}
 
         - name: Build Docker Image
           run: |
-            docker build -t countdownacr.azurecr.io/countdown-app:latest .
+            docker build -t allappsregistry.azurecr.io/countdown-app:latest .
 
   deploy:
       needs: docker
@@ -80,8 +80,8 @@ jobs:
             az container create \
               --resource-group countdown-react-app \
               --name my-container \
-              --image countdownacr.azurecr.io/countdown-app:latest \
-              --registry-login-server countdownacr.azurecr.io \
+              --image allappsregistry.azurecr.io/countdown-app:latest \
+              --registry-login-server allappsregistry.azurecr.io \
               --registry-username ${{ secrets.AZURE_CLIENT_ID }} \
               --registry-password ${{ secrets.AZURE_CLIENT_SECRET }} \
               --dns-name-label myapp-container \
@@ -97,13 +97,13 @@ jobs:
               --resource-group countdown-react-app \
               --plan countdownServicePlan  \
               --name testingcountdown \
-              --deployment-container-image-name countdownacr.azurecr.io/react-app:latest
+              --deployment-container-image-name allappsregistry.azurecr.io/react-app:latest
                
             az webapp config container set \
               --name testingcountdown \
               --resource-group countdown-react-app \
-              --docker-custom-image-name countdownacr.azurecr.io/react-app:latest \
-              --docker-registry-server-url https://countdownacr.azurecr.io \
+              --docker-custom-image-name allappsregistry.azurecr.io/react-app:latest \
+              --docker-registry-server-url https://allappsregistry.azurecr.io \
               --docker-registry-server-user ${{ secrets.AZURE_CLIENT_ID }} \
               --docker-registry-server-password ${{ secrets.AZURE_CLIENT_SECRET }}
             
